@@ -1,45 +1,69 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Gutierre</title>
+    <title>Var to RCE</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            overflow: hidden;
+            font-family: monospace;
+            color: rgb(255, 255, 255);
+            background: black;
+            line-height: 1.5;
         }
-
-        .highlight {
-            color: red;
-        }
-
         .blue {
             color: #00aaff;
         }
+        h1 {
+            font-size: 40px;
+        }
+        p{
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+        }
+        p.subtitle {
+            font-size: 12px;
+            color: rgb(66, 165, 79);
+        }
 
         pre {
+            font-family: monospace;
             white-space: pre-wrap;
+            line-height: 125%;
+            background-color: #1a191a;
+            padding: 1em;
+        }
+        .image-container {
+            max-width: 35%;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
+        .highlight {
+            background-color: rgb(195, 232, 180); 
+            padding: 0.2em 0.5em; 
+            border-radius: 4px; 
+        }
+
+        .green-text {
+            color: rgb(66, 165, 79); 
         }
     </style>
 </head>
 
 <body>
-    <pre>
-<span class="highlight">uid=0(root) gid=0(root) groups=0(root)</span>
-
-Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hacking, eletrônica e música. Este site foi criado com o objetivo de organizar minhas postagens de uma forma divertida e interativa.
-Estudo hacking faz algum tempo, iniciei meus estudos com cursos gratuitos de Python junto com o livro "Redes de Computadores" do grande Andrew Stuart Tanenbaum. Após isso, comecei a praticar as salas mais fáceis do Tryhackme junto com outros CTFs. Não foi necessário mais que 1 ano para que eu decidisse que era isso que eu gostaria de fazer para o resto da minha vida.
-Hoje possuo a DCPT e a eJPT, estou praticando CTFs pois quero tirar mais certificações ao longo do tempo e poder aprender cada vez mais. Keep learning, keep hacking.
-
-Sinta-se à vontade para entrar em contato comigo a qualquer momento.
-
-<span class="blue">Discord: gutierre0x80</span>
-    </pre>
+    <h1>Quem sou eu?</h1>
+    <p class="subtitle">uid=0(root) gid=0(root) groups=0(root)</p>
+    <p> Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hacking, eletrônica e música. Estou cursando Técnico em mecatrônica e estudo hacking quando estou livre. Este site foi criado com o objetivo de organizar minhas postagens de uma forma divertida e interativa.</p>
+    <p>Eu estudo hacking faz algum tempo, iniciei meus estudos com cursos gratuitos de Python junto com o livro "Redes de Computadores" do grande Andrew Stuart Tanenbaum. Após isso, comecei a praticar as salas mais fáceis do Tryhackme junto com outros CTFs, enquanto isso, fiz outros cursos pagos. Não foi necessário mais que 1 ano para que eu decidisse que era isso que eu gostaria de fazer para o resto da minha vida.</p>
+    <p>Hoje possuo a DCPT e a eJPT, estou praticando CTFs pois quero tirar mais certificações ao longo do tempo e poder aprender cada vez mais.</p>
+    <p>Dentro de Hacking, eu gosto muito de Web hacking, Infra, engenharia reversa e hardware hacking... Bom, admito que gostar é diferente de dominar, possuo mais experiência com Web Hacking e pentest em infra, graças a mecatrônica, estou tendo mais facilidade em estudar Hardware Hacking. Mas de qualquer maneira, sou um entusiasta em Hacking e Pentest.</p>
+    <p>Já na parte de Eletrônica, gosto bastante de... Hardware Hacking!? Estudo microcontroladores e microprocessadores, sistemas embarcados, circuitos analogicos e digitais, entre outros</p>
+    <p>Sinta-se à vontade para entrar em contato comigo a qualquer momento.</p>
+    <span class="blue">Discord: gutierre0x80</span>
 </body>
-
 </html>
