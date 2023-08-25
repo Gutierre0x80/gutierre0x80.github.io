@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root@Gutierre0x80</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            font-family: 'Courier New', monospace;
+            color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .button {
+            background-color: green;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+        }
+        
+        .button:hover {
+            background-color: black;
+            color: green;
+        }
+        
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gutierre0x80 Station</h1>
+    <h3>Sinta-se à vontade para explorar da maneira que preferir.</h3>
+    <a class="button" href="Graphical/index.html">Graphical</a>
+    <a class="button" href="Line_Command/index.html">Line Command</a>
+    
+    <div class="stars-container"></div>
+    
+</body>
+</html>
