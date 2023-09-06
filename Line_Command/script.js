@@ -45,7 +45,7 @@ function handleCommand(command) {
     writeToTerminal(`${promptText}${currentDirectory}]: ${sanitizedCommand}`, true);
 
     const commandParts = sanitizedCommand.split(' ');
-    const baseCommand = commandParts[0];
+    const baseCommand = commandParts[0].toLowerCase();
     const options = commandParts.slice(1);
 
     switch (baseCommand) {
