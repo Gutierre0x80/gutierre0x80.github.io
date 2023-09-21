@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root Shell via UART</title>
+    <style>
+        body {
+            font-family: monospace;
+            color: rgb(255, 255, 255);
+            background: black;
+            line-height: 1.5;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        p {
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+        }
+
+        p.subtitle {
+            font-size: 12px;
+            color: rgb(66, 165, 79);
+        }
+        p.topic {
+            font-size: 32px;
+            color: rgb(255, 255, 255);
+        }
+        p.Subtopic {
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+        }
+        pre {
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 125%;
+            background-color: #1a191a;
+            padding: 1em;
+        }
+
+        .image-container {
+        max-width: 25%; 
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        }
+        .image-inline {
+        display: inline-block;
+        margin-right: 10px; /* Isso adiciona um espaço entre as imagens, você pode ajustá-lo conforme necessário */
+        }
+
+ 
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+        }
+
+        .highlight {
+            background-color: rgb(195, 232, 180);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+        }
+
+        .green-text {
+            color: rgb(66, 165, 79);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Getting a Root Shell on Router via UART</h1>
+    <p class="subtitle">"There was a time in the not-so-distant past
+        when hardware was relegated to the fringes
+        of hacking [...]"</p>
+    <p>Para muitos, acessar um roteador via UART é algo extremamente trivial, contudo, ainda é bem
+        divertido.
+    </p>
+    <p>
+        De certa forma, conseguir uma shell via protocolo UART é simples. As dificuldades
+        podem vir em sistemas embarcados que possuem shell bloqueada ou outros mecanismos de proteção. Tendo isso em mente, vou tentar ser o mais explicativo possível.
+    </p>
+    <p>
+        Esse é o roteador que irei explorar:
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\roteador.png> Peguei essa foto na Internet. Pois não sabia onde estava a carcaça dele.
+    </div>
+    <p>
+    <p class="topic"> <strong>Sinais analógico x Sinais Digitais</strong>
+    </p>
+    <p>
+        Eu não pretendo me aprofundar muito em eletrônica neste tópico, mas existem alguns conceitos que precisamos saber antes de realizar esse ataque.
+        É fundamental que entendemos o que é um sinal analógico, o que é um sinal digital e eventualmente entender suas diferenças.
+    </p>
+    </div>
+    <p class = "Subtopic"><strong>.Sinal Analógico</strong></p>
+    <p>
+        Um sinal analógico pode possuir infinitos valores dentro de um determinado tempo. Esse gráfico representa as ondas de um sinal analógico:
+    </p>
+    <div class="image-container">
+    <img src= https://embarcados.com.br/wp-content/uploads/2017/05/Sinal-Anal%C3%B3gico-Sinal-Digital-01.png> 
+    https://embarcados.com.br/sinal-analogico-x-sinal-digital/</div>
+    <p>Entenda esse sinal a tensão (não é a maneira mais correta de dizer... mas é comumente chamada de "voltagem") que envia uma informação. Observe que em um tempo x o sinal está em 5V, em determinado momento chega 3.29V e em após mais um tempo está em 4.73V. Eu realmente não sei em qual momento chega, a principal questão é essa! Um sinal analogico possui diversos valores na mesma comunicação.</p>
+    <p>
+        O sinal analógico é extremamente útil em casos onde precisamos de sensores como: Temperatura, distância, ou até mesmo para controlar potência de dispositivos. Esse é um contrlador de potência que montei, não se apegue ao funcionamento e nem a tensão, apenas entenda que o sinal analôgico não possui valor exato:
+    </p>
+    <div class="image-container">
+    <img src="C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\analogico.png" alt="Descrição da imagem">
+    </div>  
+    <p class = "Subtopic"><strong>.Sinais Digital</strong></p>
+    <p>
+        Sinais digitais são representados por números binários. Isso quer dizer que um sinal digital possui apenas 2 estados: Ligado ou desligado, 0 ou 1. Veja uma onda de Sinal Digital:
+    </p>
+    <div class="image-container">
+        <img src= https://embarcados.com.br/wp-content/uploads/2017/05/Sinal-Anal%C3%B3gico-Sinal-Digital-03.png> 
+        https://embarcados.com.br/sinal-analogico-x-sinal-digital/</div>
+    <p>
+        Observe que, indiretamente, temos duas tensões diferentes e duas representações distintas. O 0V é representado pelo valor 0 (estado lógico: desligado), enquanto o 5V é representado pelo valor 1 (estado lógico: ligado).
+        <br>Um sinal analógico SEMPRE será 0 ou 1 (bem, não vamos entrar na computação quântica). É possível que o estado lógico "1" (ligado) seja representado por 3,3V ou 5V, mas ainda assim teremos apenas os valores 0 e 1. Isso é fácil de compreender; por exemplo, pense em uma lâmpada: ela pode estar em dois estados lógicos ao mesmo tempo? "Meio ligada"? Não. Ela estará no estado 0 (desligada) ou no estado 1 (ligada).
+        <br>Existem muitos conceitos relacionados, como portas lógicas e resistores pull-down, entre outros, mas, como mencionado anteriormente, esses tópicos não são o foco deste contexto.
+    </p>
+    <p>
+        Um sinal analogico SEMPRE vai ser 0 ou 1 (bom... não vamos falar sobre computação quântica), pode ser que, o estado lógico: 1 (ligado) seja 3.3V, ou 5V, ainda sim haverá apenas 0's e 1's. Isso é simples de se imaginar, por exemplo, pense uma lâmpada: É possível ela estar em dois estados lógicos ao mesmo tempo? "Meio ligada"? Não. Ela vai ser 0 (Estado desligado) ou 1 (Estado ligado)<br>Existem muitas coisas, como portas lógicas, resistores de Pull Down, entre outros, mas como eu havia mencionado, não é o objetivo desse tópico.
+    </p>
+    <p class="topic"> <strong>Resumo do protocolo UART/serial</strong>
+    </p>
+    <p>
+        O <span class="link"><a href="https://www.riverloopsecurity.com/blog/2020/01/hw-101-uart/">riverloopsecurity</a></span> deu uma definição interessante.
+    </p>
+    <p>
+        "É fácil pensar em comunicação serial como o Código Morse. No Código Morse existem apenas dois sinais que podem ser enviados - um bipe curto ou um bipe longo. Ao combinar bipes curtos e longos em uma ordem específica, eles podem ser entendidos como letras e palavras."
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\morse-ascii.png> 
+        https://www.riverloopsecurity.com/blog/2020/01/hw-101-uart/</div>
+    <p>
+    <p>
+        Os computadores se baseiam em uma lógica de comunicação que envolve a utilização de diferentes níveis de tensão elétrica para representar informações digitais. Essa técnica permite que os dispositivos eletrônicos transmitam dados de forma confiável.
+        <br><br>No contexto da lógica digital, é comum que um nível de tensão mais elevado, como 3,3V ou 5V, seja interpretado como o valor lógico "1", enquanto um nível de tensão mais baixo, geralmente 0V, é interpretado como o valor lógico "0". Essa é a base da codificação de informações digitais em eletrônica.
+        <br><br>Entretanto, é importante compreender o conceito de resistores pull-down. Quando um interruptor ou dispositivo está desligado, ele não envia necessariamente 0V, mas pode não enviar nenhum sinal elétrico, o que é representado como "ØV" (tensão nula) ou simplesmente a ausência de um nível lógico. Para evitar confusões na interpretação, utiliza-se um resistor pull-down, que é um componente eletrônico conectado entre o ponto de entrada/saída e o terra (0V). Isso garante que, quando o interruptor ou dispositivo estiver desligado, a tensão seja efetivamente puxada para 0V, assegurando que o sistema reconheça corretamente o valor lógico "0". Quando o interruptor ou dispositivo é acionado, a tensão pode chegar aos níveis mais altos, como 5V ou 3,3V, dependendo da aplicação.
+        <br><br>Para comunicação usando o protocolo UART (Universal Asynchronous Receiver/Transmitter), são usados pinos designados como TX (Transmit) e RX (Receive). Esse protocolo é amplamente utilizado em comunicação serial entre dispositivos, onde os dados são transmitidos sequencialmente, um bit de cada vez. O pino TX é usado para transmitir dados, enquanto o pino RX é usado para receber dados. Essa comunicação serial é fundamental em uma variedade de aplicações, como microcontroladores, sensores, módulos de comunicação e outros dispositivos eletrônicos, permitindo a troca eficiente de informações digitais entre eles.
+    </p>
+
+    <p>
+        Para uma leitura mais aprofundada em eletrônica, recomendo a matéria do <span class="link"><a href="https://learn.sparkfun.com/tutorials/serial-communication/all">sparkfun.com</a></span> 
+    </p>
+    </p>
+        <p class="topic"> <strong>Encontrando Tx e RX</strong>
+    </p>
+    
+    <p>
+        Geralmente o TX e RX estão acompanhado de outros 2 terminais: VCC e GND.<br>Primeiro vamos desmontar o equipamento e ter uma visão geral do alvo: 
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\roteador-open.png> 
+    </div>
+    <p>
+        Temos que encontrar 4 pontos de ligação, geralmente são quatro terminais próximos, os famosos "4 furinhos", justamente o VCC, GND, TX e RX. <strong>Não existe uma ordem padrão</strong>, eu utilizei um múltimetro para identificar qual terminal é o GND, VCC, Tx e o Rx. Note que no roteador utilizado, já existia um barramento soldado.
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\txrx.png> 
+    </div>
+    <p class = "Subtopic"><strong>Encontrando GND</strong></p>
+    <p>O primeiro terminal que precisamos identificar é o GND, pois com ele é possível achar o VCC e o Tx <br>Para identificar o GND, utilizei o modo do múltimetro para testar continuidade. Você concorda que mais de um ponto do roteador está conectado no GND, correto? Seguido essa lógica, conectarei uma ponta de prova o GND da entrada do roteador e testarei terminal por terminal, até que algun deles faça um "beep", indicando que hovue contato entre as duas pontas de prova.</p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\gnd.gif> Segundo terminal é o GND
+    </div>
+    <p class = "Subtopic"><strong>Encontrando VCC</strong></p>
+    <p>Encontrar o VCC é extremamente simples. Com o roteador ligado, basta ver qual terminal que, quando uma das pontas de prova estiver conectada ao GND terá 3.3V ou 5V de forma <strong>FIXA</strong></p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\medicao-vcc.png> Primeiro terminal é o VCC
+    </div>
+    <p class = "Subtopic"><strong>Encontrando Tx</strong></p>
+    <p>Como eu havia dito, o Tx significa transmit, e os sinais são enviados por pulsos elétricos (3.3V nesse caso, isso ficou claro na medição do VCC) no momento que ligarmos o roteador, durante os 10 ~ 20 primeiros segundos, o Tx precisa ficar variando, justamente por causa dos pulsos (dados - uma séria de 0 e 1) que estão sendo transmitido</p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\tx.gif> Terceiro terminal é o TX
+    </div>
+    <p class = "Subtopic"><strong>Encontrando Rx</strong></p>
+    <p>É realmente necessário? Sobrou Apenas um terminal. Caso você queria confirmar, teoricamente, ele não deve enviar nenhum dado, consequentimante, sua tensão deve ser fixa, oscilações existem, mas nada comparado as pulsações de Tx<br> O ultimo terminal é o RX</p>
+    </p>
+        <p class="topic"> <strong>Fazendo as ligações</strong>
+    </p>
+    
+    <p>
+       Identificamos todos os terminais da saida serial UART do roteador:
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\terminais.png> 
+    </div>
+    <p>
+        Para conseguir a shell, utilizarei um FT232, quem me indicou essa placa foi o <span class="link"><a href="https://lucasteske.dev/">Lucas Teske</a></span>, para identificar suas saidas, é possível encontra com buscas na internet:
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\ft232-pin-out.png> 
+    </div>
+    <p>
+        Certo. Precisamos entender como fazer essa ligação entre o FT232 e as saidas seriais que encontramos. Pode parecer óbvio, mas nem sempre é intuitivo. <strong>Tx -> Rx</strong> e <strong>Rx -> Tx </strong>
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\ft232.png> The Hardware Hacking Handbook
+    </div>
+    <p>
+        O motivo de ser conectado dessa maneira é extremamente óbvio.Uma vez que o <strong>Transmissor</strong> do roteador enviar um dado, o <strong>Receptor</strong> do FT232 deve captar. Quando o <strong>Transmissor</strong> do FT232 enviar um dado, o <strong>Receptor</strong> do roteador deve receber. Essa imagem explica exatamente isso:
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\uart_transmissao.png> https://www.analog.com/en/analog-dialogue/articles/uart-a-hardware-communication-protocol.html
+    </div>
+    <p>
+        Agora que entendemos como é feito a ligação, temos o Tx, Rx e VCC do FT232 e do nosso alvo, hands on cake. Observe como fiz as ligações:
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\conexao.jpg> 
+    </div>
+    </p>
+        <p class="topic"> <strong>Recebendo a conexão</strong>
+    </p>
+    <p>
+        Para fazer a conexão, utilizei o <span class="link"><a href="https://www.putty.org/">PuTTY</a></span>. Inseri o FT232 em minha máquina e identifiquei qual era sua linha (COM1, COM2, COM3...):
+    </p>
+    <div class="image-container">
+        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\putty.png>
+    </div>
+    <p>    
+        Antes de recebermos a conexão, preciamos entender mais um conceito. os <strong>Baud Rates</strong>
+    </p>
+    <p class = "Subtopic"><strong>Bad Rautes</strong></p>
+    <p>
+        Eu mencionei uma frase que dizia "um bipe curto ou um bipe longo. Ao combinar bipes curtos e longos em uma ordem específica, eles podem ser entendidos como letras e palavras." <br>Isso é verdade, mas seguindo essa analogia, quanto tempo dura um bipe curto? E um bipe longo? O primeiro passo é lembrar que em sistemas de comunicação digital, um "byte" é uma unidade de dados que consiste em <strong>8 bits</strong>.<br><br>Velocidade de transmissão de dados é medida em <strong>baud rates</strong> ou <strong>taxas de baud</strong>, que representam o número de sinais de símbolos transmitidos por segundo. Um "baud" geralmente equivale a um único sinal ou transição de sinal por segundo.
+        <br><br>Por exemplo, se você estiver em um sistema com uma taxa de baud de 9600 bps (bauds por segundo) e estiver transmitindo um byte de 8 bits, a duração de um byte seria:
+    </p>
+    <div class="codehilite">
+        <pre><code>
+            Duração de um byte (segundos) = Tamanho do byte (em bits) / Taxa de baud (bauds)
+        </code></pre>
+    </div>
+        <p>
+            <br>Por exemplo, se você estiver em um sistema com uma taxa de baud de 9600 bps (bauds por segundo) e estiver transmitindo um byte de 8 bits, a duração de um byte seria:
+            <br>Duração de um byte (segundos) = 8 bits / 9600 bauds = 0,0008333 segundos (ou cerca de 833 microssegundos)
+            <br>Portanto, em um sistema com uma taxa de baud de 9600 bps, um "byte" levaria aproximadamente 833 microssegundos para ser transmitido
+        </p>
+        <p>
+            O fabricante do produto pode definir a velocidade que quiser, porém, existem velocidades padrões, que são mais utlizadas:
+        </p>
+        <div class="codehilite">
+            <pre><code>
+                110 300 600 1200 2400 4800 9600 14400 19200 38400 57600 115200 128000 256000
+            </code></pre>
+        </div>
+        <p>
+            Esse é um exemplo de uma conexão com a velocidade errada:
+        </p>
+        <div class="image-container">
+            <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\velocidade-errada.png>
+        </div>
+        <p>
+            Até o momento, eu testei manualmente essas velocidades e felizmente, acertei em poucas tentativas. No entanto, existem maneiras de você descobrir essa velocidade, como por exemplo, usando um osciloscópio.
+        </p>
+        <div class="image-container">
+            <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\UART.gif>
+        </div>
+
+
+
+
+
+
+    </div>
+</body>
+
+</html>
