@@ -13,14 +13,14 @@ const directoryContents = {
     '/': ['Profile', 'Hacking', 'Electronics'],
     'Profile': ['whoami.html'],
     'Hacking': ['Variavel_To_Rce.html'],
-    'Electronics': ['Funny.html'],
+    'Electronics': ['Funny.html'],['Uart-to-shell.html'],
 };
 
 const fileContents = {
     'Profile/whoami.html': 'uid=0(root) gid=0(root) groups=0(root)<br>Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hac...<br><br>Por favor, para ver o conteudo completo, utilize: open whoami.html',
     'Hacking/Variavel_To_Rce.html': 'Diferente do PHP, no python, uma váriavel (Seja string, float ou int), as variá...<br><br>Por favor, para ver o conteudo completo, utilize: open Variavel_To_Rce.html',
     'Electronics/Funny.html': 'Portas logicas... <br><br>Por favor, para ver o conteudo completo, utilize: open Funny.html',
-    'Electronics/Uart-to-shell.html': 'Acessando roteador usando protocolo UART... <br><br>Por favor, para ver o conteudo completo, utilize: open Funny.html',
+    'Electronics/Uart-to-shell.html': 'Getting a Root Shell on Router via UART... <br><br>Por favor, para ver o conteudo completo, utilize: open Uart-to-shell.html',
 };
 
 function hideWelcomeText() {
