@@ -13,7 +13,7 @@ const directoryContents = {
     '/': ['Profile', 'Hacking', 'Electronics'],
     'Profile': ['whoami.html'],
     'Hacking': ['Variavel_To_Rce.html'],
-    'Electronics': ['Funny.html'],['Uart-to-shell.html'],
+    'Electronics': ['Funny.html', 'Uart-to-shell.html'],
 };
 
 const fileContents = {
