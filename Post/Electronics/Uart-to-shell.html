@@ -88,7 +88,7 @@
         Esse é o roteador que irei explorar:
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\roteador.png> Peguei essa foto na Internet. Pois não sabia onde estava a carcaça dele.
+        <img src= https://gutierre0x80.github.io/Itens/roteador.png> Peguei essa foto na Internet. Pois não sabia onde estava a carcaça dele.
     </div>
     <p>
     <p class="topic"> <strong>Sinais analógico x Sinais Digitais</strong>
@@ -110,7 +110,7 @@
         O sinal analógico é extremamente útil em casos onde precisamos de sensores como: Temperatura, distância, ou até mesmo para controlar potência de dispositivos. Esse é um contrlador de potência que montei, não se apegue ao funcionamento e nem a tensão, apenas entenda que o sinal analôgico não possui valor exato:
     </p>
     <div class="image-container">
-    <img src="C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\analogico.png" alt="Descrição da imagem">
+    <img src="https://gutierre0x80.github.io/Itens/analogico.png" alt="Descrição da imagem">
     </div>  
     <p class = "Subtopic"><strong>.Sinais Digital</strong></p>
     <p>
@@ -136,7 +136,7 @@
         "É fácil pensar em comunicação serial como o Código Morse. No Código Morse existem apenas dois sinais que podem ser enviados - um bipe curto ou um bipe longo. Ao combinar bipes curtos e longos em uma ordem específica, eles podem ser entendidos como letras e palavras."
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\morse-ascii.png> 
+        <img src= https://gutierre0x80.github.io/Itens/morse-ascii.png> 
         https://www.riverloopsecurity.com/blog/2020/01/hw-101-uart/</div>
     <p>
     <p>
@@ -157,28 +157,28 @@
         Geralmente o TX e RX estão acompanhado de outros 2 terminais: VCC e GND.<br>Primeiro vamos desmontar o equipamento e ter uma visão geral do alvo: 
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\roteador-open.png> 
+        <img src= https://gutierre0x80.github.io/Itens/roteador-open.png> 
     </div>
     <p>
         Temos que encontrar 4 pontos de ligação, geralmente são quatro terminais próximos, os famosos "4 furinhos", justamente o VCC, GND, TX e RX. <strong>Não existe uma ordem padrão</strong>, eu utilizei um múltimetro para identificar qual terminal é o GND, VCC, Tx e o Rx. Note que no roteador utilizado, já existia um barramento soldado.
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\txrx.png> 
+        <img src= https://gutierre0x80.github.io/Itens/txrx.png> 
     </div>
     <p class = "Subtopic"><strong>Encontrando GND</strong></p>
     <p>O primeiro terminal que precisamos identificar é o GND, pois com ele é possível achar o VCC e o Tx <br>Para identificar o GND, utilizei o modo do múltimetro para testar continuidade. Você concorda que mais de um ponto do roteador está conectado no GND, correto? Seguido essa lógica, conectarei uma ponta de prova o GND da entrada do roteador e testarei terminal por terminal, até que algun deles faça um "beep", indicando que hovue contato entre as duas pontas de prova.</p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\gnd.gif> Segundo terminal é o GND
+        <img src= https://gutierre0x80.github.io/Itens/gnd.gif> Segundo terminal é o GND
     </div>
     <p class = "Subtopic"><strong>Encontrando VCC</strong></p>
     <p>Encontrar o VCC é extremamente simples. Com o roteador ligado, basta ver qual terminal que, quando uma das pontas de prova estiver conectada ao GND terá 3.3V ou 5V de forma <strong>FIXA</strong></p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\medicao-vcc.png> Primeiro terminal é o VCC
+        <img src= https://gutierre0x80.github.io/Itens/medicao-vcc.png> Primeiro terminal é o VCC
     </div>
     <p class = "Subtopic"><strong>Encontrando Tx</strong></p>
     <p>Como eu havia dito, o Tx significa transmit, e os sinais são enviados por pulsos elétricos (3.3V nesse caso, isso ficou claro na medição do VCC) no momento que ligarmos o roteador, durante os 10 ~ 20 primeiros segundos, o Tx precisa ficar variando, justamente por causa dos pulsos (dados - uma séria de 0 e 1) que estão sendo transmitido</p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\tx.gif> Terceiro terminal é o TX
+        <img src= https://gutierre0x80.github.io/Itens/tx.gif> Terceiro terminal é o TX
     </div>
     <p class = "Subtopic"><strong>Encontrando Rx</strong></p>
     <p>É realmente necessário? Sobrou Apenas um terminal. Caso você queria confirmar, teoricamente, ele não deve enviar nenhum dado, consequentimante, sua tensão deve ser fixa, oscilações existem, mas nada comparado as pulsações de Tx<br> O ultimo terminal é o RX</p>
@@ -190,31 +190,31 @@
        Identificamos todos os terminais da saida serial UART do roteador:
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\terminais.png> 
+        <img src= https://gutierre0x80.github.io/Itens/terminais.png> 
     </div>
     <p>
         Para conseguir a shell, utilizarei um FT232, quem me indicou essa placa foi o <span class="link"><a href="https://lucasteske.dev/">Lucas Teske</a></span>, para identificar suas saidas, é possível encontra com buscas na internet:
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\ft232-pin-out.png> 
+        <img src= https://gutierre0x80.github.io/Itens/ft232-pin-out.png> 
     </div>
     <p>
         Certo. Precisamos entender como fazer essa ligação entre o FT232 e as saidas seriais que encontramos. Pode parecer óbvio, mas nem sempre é intuitivo. <strong>Tx -> Rx</strong> e <strong>Rx -> Tx </strong>
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\ft232.png> The Hardware Hacking Handbook
+        <img src= https://gutierre0x80.github.io/Itens/ft232.png> The Hardware Hacking Handbook
     </div>
     <p>
         O motivo de ser conectado dessa maneira é extremamente óbvio.Uma vez que o <strong>Transmissor</strong> do roteador enviar um dado, o <strong>Receptor</strong> do FT232 deve captar. Quando o <strong>Transmissor</strong> do FT232 enviar um dado, o <strong>Receptor</strong> do roteador deve receber. Essa imagem explica exatamente isso:
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\uart_transmissao.png> https://www.analog.com/en/analog-dialogue/articles/uart-a-hardware-communication-protocol.html
+        <img src= https://gutierre0x80.github.io/Itens/uart_transmissao.png> https://www.analog.com/en/analog-dialogue/articles/uart-a-hardware-communication-protocol.html
     </div>
     <p>
         Agora que entendemos como é feito a ligação, temos o Tx, Rx e VCC do FT232 e do nosso alvo, hands on cake. Observe como fiz as ligações:
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\conexao.jpg> 
+        <img src= https://gutierre0x80.github.io/Itens/conexao.jpg> 
     </div>
     </p>
         <p class="topic"> <strong>Recebendo a conexão</strong>
@@ -223,7 +223,7 @@
         Para fazer a conexão, utilizei o <span class="link"><a href="https://www.putty.org/">PuTTY</a></span>. Inseri o FT232 em minha máquina e identifiquei qual era sua linha (COM1, COM2, COM3...):
     </p>
     <div class="image-container">
-        <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\putty.png>
+        <img src= https://gutierre0x80.github.io/Itens/putty.png>
     </div>
     <p>    
         Antes de recebermos a conexão, preciamos entender mais um conceito. os <strong>Baud Rates</strong>
@@ -255,13 +255,13 @@
             Esse é um exemplo de uma conexão com a velocidade errada:
         </p>
         <div class="image-container">
-            <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\velocidade-errada.png>
+            <img src= https://gutierre0x80.github.io/Itens/velocidade-errada.png>
         </div>
         <p>
             Até o momento, eu testei manualmente essas velocidades e felizmente, acertei em poucas tentativas. No entanto, existem maneiras de você descobrir essa velocidade, como por exemplo, usando um osciloscópio.
         </p>
         <div class="image-container">
-            <img src= C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\UART.gif>
+            <img src= https://gutierre0x80.github.io/Itens/UART.gif>
         </div>
 
 
