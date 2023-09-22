@@ -41,30 +41,48 @@
             background-color: #1a191a;
             padding: 1em;
         }
-
-        .image-container {
-        max-width: 25%; 
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        }
-        .image-inline {
-        display: inline-block;
-        margin-right: 10px; 
-        }
-        .gif-container {
-        max-width: 40%; 
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        }
-        .gif-container img {
-        width: 100%;
-        height: auto;
-        }
+        /* Estilo padrão para imagens */
         .image-container img {
-        width: 100%;
-        height: auto;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Estilo para .image-container */
+        .image-container {
+            max-width: 30%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Media query para telas pequenas (como celulares) */
+        @media (max-width: 480px) {
+            .image-container img {
+                width: 300px; /* Define a largura fixa de 300px em telas menores que 480px de largura */
+                max-width: none; /* Remove a limitação de largura máxima */
+            }
+        }
+
+        /* Estilo padrão para imagens dentro de .gif-container */
+        .gif-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Estilo para .gif-container */
+        .gif-container {
+            max-width: 40%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Media query para telas pequenas (como celulares) */
+        @media (max-width: 480px) {
+            .gif-container img {
+                width: 400px; /* Define a largura fixa de 300px em telas menores que 480px de largura */
+                max-width: none; /* Remove a limitação de largura máxima */
+            }
         }
 
         .highlight {
