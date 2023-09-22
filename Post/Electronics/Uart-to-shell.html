@@ -134,7 +134,7 @@
     <span class="link"><a href="https://www.riverloopsecurity.com/blog/2020/01/hw-101-uart/">embarcados.com.br</a></span></div>
     <p>Entenda esse sinal a tensão (não é a maneira mais correta de dizer... mas é comumente chamada de "voltagem") que envia uma informação. Observe que em um tempo x o sinal está em 5V, em determinado momento chega 3.29V e em após mais um tempo está em 4.73V. Eu realmente não sei em qual momento chega, a principal questão é essa! Um sinal analogico possui diversos valores na mesma comunicação.</p>
     <p>
-        O sinal analógico é extremamente útil em casos onde precisamos de sensores como: Temperatura, distância, ou até mesmo para controlar potência de dispositivos. Esse é um contrlador de potência que montei, não se apegue ao funcionamento e nem a tensão, apenas entenda que o sinal analôgico não possui valor exato:
+        O sinal analógico é extremamente útil em casos onde precisamos de sensores como: Temperatura, distância, ou até mesmo para controlar potência de dispositivos. Esse é um controlador de potência que montei, não se apegue ao funcionamento e nem a tensão, apenas entenda que o sinal analôgico não possui valor exato:
     </p>
     <div class="image-container">
     <img src="https://gutierre0x80.github.io/Itens/analogico.png" alt="Descrição da imagem">
@@ -193,7 +193,7 @@
         <img src= https://gutierre0x80.github.io/Itens/txrx.png> 
     </div>
     <p class = "Subtopic"><strong>Encontrando GND</strong></p>
-    <p>O primeiro terminal que precisamos identificar é o GND, pois com ele é possível achar o VCC e o Tx <br>Para identificar o GND, utilizei o modo do múltimetro para testar continuidade. Você concorda que mais de um ponto do roteador está conectado no GND, correto? Seguido essa lógica, conectarei uma ponta de prova o GND da entrada do roteador e testarei terminal por terminal, até que algun deles faça um "beep", indicando que hovue contato entre as duas pontas de prova.</p>
+    <p>O primeiro terminal que precisamos identificar é o GND, pois com ele é possível achar o VCC e o Tx <br>Para identificar o GND, utilizei o modo do múltimetro para testar continuidade. Você concorda que mais de um ponto do roteador está conectado no GND, correto? Seguido essa lógica, conectarei uma ponta de prova o GND da entrada do roteador e testarei terminal por terminal, até que algun deles faça um "beep", indicando que houve contato entre as duas pontas de prova.</p>
     <div class="image-container">
         <img src= https://gutierre0x80.github.io/Itens/gnd.gif> Segundo terminal é o GND
     </div>
@@ -232,7 +232,7 @@
         <img src= https://gutierre0x80.github.io/Itens/ft232.png> The Hardware Hacking Handbook
     </div>
     <p>
-        O motivo de ser conectado dessa maneira é extremamente óbvio.Uma vez que o <strong>Transmissor</strong> do roteador enviar um dado, o <strong>Receptor</strong> do FT232 deve captar. Quando o <strong>Transmissor</strong> do FT232 enviar um dado, o <strong>Receptor</strong> do roteador deve receber. Essa imagem explica exatamente isso:
+        O motivo de ser conectado dessa maneira é extremamente óbvio. Uma vez que o <strong>Transmissor</strong> do roteador enviar um dado, o <strong>Receptor</strong> do FT232 deve captar. Quando o <strong>Transmissor</strong> do FT232 enviar um dado, o <strong>Receptor</strong> do roteador deve receber. Essa imagem explica exatamente isso:
     </p>
     <div class="image-container">
         <img src= https://gutierre0x80.github.io/Itens/uart_transmissao.png> https://www.analog.com/en/analog-dialogue/articles/uart-a-hardware-communication-protocol.html
