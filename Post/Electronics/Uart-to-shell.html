@@ -41,13 +41,12 @@
             background-color: #1a191a;
             padding: 1em;
         }
-        /* Estilo padrão para imagens */
+
         .image-container img {
             width: 100%;
             height: auto;
         }
 
-        /* Estilo para .image-container */
         .image-container {
             max-width: 30%;
             display: block;
@@ -55,36 +54,39 @@
             margin-right: auto;
         }
 
-        /* Media query para telas pequenas (como celulares) */
         @media (max-width: 480px) {
             .image-container img {
-                width: 300px; /* Define a largura fixa de 300px em telas menores que 480px de largura */
-                max-width: none; /* Remove a limitação de largura máxima */
+                width: 300px;
+                max-width: none;
+            }
+            .image-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto; 
             }
         }
-
-        /* Estilo padrão para imagens dentro de .gif-container */
+        
         .gif-container img {
             width: 100%;
             height: auto;
         }
-
-        /* Estilo para .gif-container */
         .gif-container {
             max-width: 40%;
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
-
-        /* Media query para telas pequenas (como celulares) */
         @media (max-width: 480px) {
             .gif-container img {
-                width: 400px; /* Define a largura fixa de 300px em telas menores que 480px de largura */
-                max-width: none; /* Remove a limitação de largura máxima */
+                width: 400px;
+                max-width: none;
+            }
+            .gif-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto;
             }
         }
-
         .highlight {
             background-color: rgb(195, 232, 180);
             padding: 0.2em 0.5em;
@@ -288,11 +290,6 @@
         <div class="gif-container">
             <img src= https://gutierre0x80.github.io/Itens/UART.gif>
         </div>
-
-
-
-
-
 
     </div>
 </body>
