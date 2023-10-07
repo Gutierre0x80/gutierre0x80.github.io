@@ -19,19 +19,23 @@
             overflow: hidden;
             position: relative;
         }
-        
+
+        h1 {
+            font-size: 36px;
+        }
+        h2 {
+            font-size: 28px; 
+        }
         .button {
             background-color: green;
             color: black;
             border: none;
-            padding: 10px 20px;
+            padding: 1em 2em;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
             cursor: pointer;
             margin: 10px;
-            font-family: 'Courier New', monospace;
             border-radius: 5px;
         }
         
@@ -56,15 +60,32 @@
             height: 2px;
             background-color: white;
         }
+
+        @keyframes twinkle {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <h1>Gutierre0x80 Station</h1>
-    <h3>Sinta-se à vontade para explorar da maneira que preferir.</h3>
+    <h2>Sinta-se à vontade para explorar da maneira que preferir.</h2>
     <a class="button" href="Graphical/index.html">Graphical</a>
     <a class="button" href="Line_Command/index.html">Line Command</a>
-    
     <div class="stars-container"></div>
-    
+    <script>
+        const starsContainer = document.querySelector('.stars-container');
+        for (let i = 0; i < 500; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            if (Math.random() < 0.75) {
+                star.style.animation = `twinkle ${Math.random() * 4 + 2}s infinite`; // Duração entre 2 e 6 segundos
+            }
+            starsContainer.appendChild(star);
+        }
+    </script>
 </body>
 </html>
