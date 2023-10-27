@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,15 +67,47 @@
             50% { opacity: 0; }
             100% { opacity: 1; }
         }
+        .language-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .language-buttons button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .language-buttons button:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
+    <div class="language-buttons">
+        <button onclick="mudarIdioma('pt')">Portuguese</button>
+        <button onclick="mudarIdioma('en')">English</button>
+    </div>
+
     <h1>Gutierre0x80 Station</h1>
     <h2>Sinta-se à vontade para explorar da maneira que preferir.</h2>
     <a class="button" href="Graphical/index.html">Graphical</a>
     <a class="button" href="Line_Command/index.html">Line Command</a>
     <div class="stars-container"></div>
+
     <script>
+        function mudarIdioma(idioma) {
+            if (idioma === 'pt') {
+                window.location.href = '/index.html';
+            } else if (idioma === 'en') {
+                window.location.href = '/en/index.html';
+            }
+        }
+
         const starsContainer = document.querySelector('.stars-container');
         for (let i = 0; i < 500; i++) {
             const star = document.createElement('div');
@@ -88,4 +121,5 @@
         }
     </script>
 </body>
+
 </html>
