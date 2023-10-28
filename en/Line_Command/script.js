@@ -17,11 +17,12 @@ const directoryContents = {
 };
 
 const fileContents = {
-    'Profile/whoami.html': 'uid=0(root) gid=0(root) groups=0(root)<br>Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hac...<br><br>Por favor, para ver o conteudo completo, utilize: open whoami.html',
-    'Hacking/Variavel_To_Rce.html': 'Diferente do PHP, no python, uma váriavel (Seja string, float ou int), as variá...<br><br>Por favor, para ver o conteudo completo, utilize: open Variavel_To_Rce.html',
-    'Electronics/Funny.html': 'Portas logicas... <br><br>Por favor, para ver o conteudo completo, utilize: open Funny.html',
-    'Electronics/Uart-to-shell.html': 'Getting a Root Shell on Router via UART... <br><br>Por favor, para ver o conteudo completo, utilize: open Uart-to-shell.html',
+    'Profile/whoami.html': 'uid=0(root) gid=0(root) groups=0(root)<br>My name is Matheus Gutierre, I am 17 years old, and I am passionate about hacking...<br><br>Please use: open whoami.html to view the full content.',
+    'Hacking/Variavel_To_Rce.html': 'Unlike PHP, in Python, a variable (whether it\'s a string, float, or int), the vari...<br><br>Please use: open Variavel_To_Rce.html to view the full content.',
+    'Electronics/Funny.html': 'Logic gates... <br><br>Please use: open Funny.html to view the full content.',
+    'Electronics/Uart-to-shell.html': 'Getting a Root Shell on Router via UART... <br><br>Please use: open Uart-to-shell.html to view the full content.',
 };
+
 
 function hideWelcomeText() {
     if (isFirstCommand) {
@@ -51,15 +52,16 @@ function handleCommand(command) {
 
     switch (baseCommand) {
         case 'help':
-            writeToTerminal('<br>'+'Comandos disponíveis:');
-            writeToTerminal('<br>'+'- help: Mostra este menu de ajuda');
-            writeToTerminal('- clear: Limpa o terminal');
-            writeToTerminal('- ls: Lista os arquivos e diretórios');
-            writeToTerminal('- cd: Acessa um diretório');
-            writeToTerminal('- cat: Exibe parte do conteudo do arquivo, contudo, é possível ver o arquivo inteiro usando o comando "open"');
-            writeToTerminal('- open: É redirecionado para o arquivo que deseja ver, assim poderá ver o artigo formatado');
-            writeToTerminal('<br>'+'Alguns comandos possuem parâmetros opcionais.');
+            writeToTerminal('<br>' + 'Available commands:');
+            writeToTerminal('<br>' + '- help: Displays this help menu');
+            writeToTerminal('- clear: Clears the terminal');
+            writeToTerminal('- ls: Lists files and directories');
+            writeToTerminal('- cd: Accesses a directory');
+            writeToTerminal('- cat: Displays part of the file content. However, you can view the entire file using the "open" command');
+            writeToTerminal('- open: Redirects to the file you want to view, allowing you to see the formatted article');
+            writeToTerminal('<br>' + 'Some commands have optional parameters.');
             break;
+
         case 'clear':
             outputElement.innerHTML = '';
             break;
@@ -72,7 +74,7 @@ function handleCommand(command) {
                         writeToTerminal(details + ' ' + item);
                     });
                 } else {
-                    writeToTerminal(`Diretório não encontrado: ${currentDirectory}`);
+                    writeToTerminal(`Directory not found: ${currentDirectory}`);
                 }
             } else {
                 const contents = directoryContents[currentDirectory];
@@ -81,7 +83,7 @@ function handleCommand(command) {
                         writeToTerminal(item);
                     });
                 } else {
-                    writeToTerminal(`Diretório não encontrado: ${currentDirectory}`);
+                    writeToTerminal(`Directory not found: ${currentDirectory}`);
                 }
             }
             break;
@@ -97,7 +99,7 @@ function handleCommand(command) {
                 currentDirectory = targetDirectory;
                 writeToTerminal(`(gutierre0x80@OldSystem)-[${currentDirectory}]`);
             } else {
-                writeToTerminal(`Diretório não encontrado: ${targetDirectory}`);
+                writeToTerminal(`Directory not found: ${targetDirectory}`);
             }
             break;
             case 'cat':
@@ -107,7 +109,7 @@ function handleCommand(command) {
                 if (fileContents[filePath]) {
                     writeToTerminal(fileContents[filePath]);
                 } else {
-                    writeToTerminal(`Arquivo não encontrado: ${targetFile}`);
+                    writeToTerminal(`File not found: ${targetFile}`);
                 }
                 break;
                 case 'open':
@@ -117,14 +119,14 @@ function handleCommand(command) {
                     const redirectTo = `Post/${currentDirectory}/${openFileName}`;
                     
                     if (openFileContent !== undefined) {
-                        writeToTerminal(`Redirecionando para: http://localhost/${redirectTo}`);
+                        writeToTerminal(`Redirect to: http://localhost/${redirectTo}`);
                         window.location.href = `../${redirectTo}`;
                     } else {
-                        writeToTerminal(`Arquivo não encontrado: ${currentDirectory}/${openFileName}`);
+                        writeToTerminal(`File not found: ${currentDirectory}/${openFileName}`);
                     }
                     break;
             default:
-                writeToTerminal('Comando inválido, digite "help" para ver os comandos válidos');
+                writeToTerminal('Invalid command, type "help" to see valid commands');
                 break;
         }
     }
