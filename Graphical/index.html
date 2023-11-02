@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
     <title>Root@Gutierre0x80</title>
@@ -16,6 +18,8 @@
             justify-content: center;
             min-height: 100vh;
             font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
         }
 
         .welcome-message {
@@ -23,8 +27,10 @@
             font-size: 36px;
             text-align: center;
             margin-bottom: 20px;
+            background-color: black; 
+            padding: 10px; 
+            opacity: 0.9; 
         }
-
         .folder-container {
             display: flex;
             flex-direction: column;
@@ -46,7 +52,7 @@
 
         .folder:hover {
             background-color: white;
-            color: green;
+            color: #4bf442;
         }
 
         .icon {
@@ -71,16 +77,27 @@
         .folder-type {
             font-size: 14px;
         }
+
         .graphical-mode {
             font-family: 'Pixelify Sans', sans-serif;
         }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
     </style>
 </head>
+
 <body>
+    <canvas id="c"></canvas>
+
     <div class="welcome-message graphical-mode">
         Graphical mode
     </div>
-    
+
     <div class="folder-container">
         <a href="en/Profile/index.html" class="folder">
             <div class="icon">📁</div>
@@ -107,5 +124,43 @@
             </div>
         </a>
     </div>
+
+    <script type="text/javascript">
+        var c = document.getElementById("c");
+        var ctx = c.getContext("2d");
+        c.height = window.innerHeight;
+        c.width = window.innerWidth;
+
+        var matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        matrix = matrix.split("");
+
+        var font_size = 10;
+        var columns = c.width / font_size;
+        var drops = [];
+
+        for (var x = 0; x < columns; x++)
+            drops[x] = 1;
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            ctx.fillStyle = "#4bf442";
+            ctx.font = font_size + "px arial";
+
+            for (var i = 0; i < drops.length; i++) {
+                var text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+                if (drops[i] * font_size > c.height && Math.random() > 0.975)
+                    drops[i] = 0;
+
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 35);
+    </script>
 </body>
+
 </html>
