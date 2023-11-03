@@ -13,7 +13,7 @@ const directoryContents = {
     '/': ['Profile', 'Hacking', 'Electronics'],
     'Profile': ['whoami.html'],
     'Hacking': ['Variavel_To_Rce.html'],
-    'Electronics': ['Funny.html', 'Uart-to-shell.html'],
+    'Electronics': ['Funny.html','Uart-to-shell.html'],
 };
 
 const fileContents = {
@@ -117,7 +117,7 @@ function handleCommand(command) {
                     const redirectTo = `Post/${currentDirectory}/${openFileName}`;
                     
                     if (openFileContent !== undefined) {
-                        writeToTerminal(`Redirecionando para: http://localhost/${redirectTo}`);
+                        writeToTerminal(`Redirecionando para: http://gutierre0x80.github.io/${redirectTo}`);
                         window.location.href = `../${redirectTo}`;
                     } else {
                         writeToTerminal(`Arquivo não encontrado: ${currentDirectory}/${openFileName}`);
