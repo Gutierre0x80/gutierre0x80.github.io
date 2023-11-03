@@ -10,18 +10,21 @@ let currentDirectory = '/';
 let isFirstCommand = true;
 
 const directoryContents = {
-    '/': ['Profile', 'Hacking', 'Electronics'],
-    'Profile': ['whoami.html'],
-    'Hacking': ['Variavel_To_Rce.html'],
-    'Electronics': ['Funny.html','Uart-to-shell.html'],
+    '/': ['profile', 'hacking', 'electronics'],
+    'profile': ['whoami.html'],
+    'hacking': ['variavel_to_rce.html'],
+    'electronics': ['funny.html', 'uart_to_shell.html'],
 };
 
 const fileContents = {
-    'Profile/whoami.html': 'uid=0(root) gid=0(root) groups=0(root)<br>Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hac...<br><br>Por favor, para ver o conteudo completo, utilize: open whoami.html',
-    'Hacking/Variavel_To_Rce.html': 'Diferente do PHP, no python, uma váriavel (Seja string, float ou int), as variá...<br><br>Por favor, para ver o conteudo completo, utilize: open Variavel_To_Rce.html',
-    'Electronics/Funny.html': 'Portas logicas... <br><br>Por favor, para ver o conteudo completo, utilize: open Funny.html',
-    'Electronics/Uart-to-shell.html': 'Getting a Root Shell on Router via UART... <br><br>Por favor, para ver o conteudo completo, utilize: open Uart-to-shell.html',
+    'profile/whoami.html': 'uid=0(root) gid=0(root) groups=0(root)<br>Meu nome é Matheus Gutierre, tenho 17 anos e sou apaixonado por Hac...<br><br>Por favor, para ver o conteudo completo, utilize: open whoami.html',
+    'hacking/variavel_to_rce.html': 'Diferente do PHP, no python, uma váriavel (Seja string, float ou int), as variá...<br><br>Por favor, para ver o conteudo completo, utilize: open variavel_to_rce.html',
+    'electronics/funny.html': 'Portas logicas... <br><br>Por favor, para ver o conteudo completo, utilize: open Funny.html',
+    'electronics/uart_to_shell.html': 'Getting a Root Shell on Router via UART... <br><br>Por favor, para ver o conteudo completo, utilize: open Uart-to-shell.html',
 };
+
+const comandosDisponiveis = ['help', 'clear', 'ls', 'cd', 'cat', 'open'];
+const todosOsNomes = [...comandosDisponiveis, ...Object.keys(directoryContents).map(item => item.toLowerCase())];
 
 function hideWelcomeText() {
     if (isFirstCommand) {
@@ -39,7 +42,6 @@ function writeToTerminal(text, isNewLine = true) {
 }
 
 function handleCommand(command) {
-
     const sanitizedCommand = DOMPurify.sanitize(command, { ALLOWED_TAGS: [] });
 
     hideWelcomeText();
@@ -47,7 +49,7 @@ function handleCommand(command) {
 
     const commandParts = sanitizedCommand.split(' ');
     const baseCommand = commandParts[0].toLowerCase();
-    const options = commandParts.slice(1);
+    const options = commandParts.slice(1).map(option => option.toLowerCase());
 
     switch (baseCommand) {
         case 'help':
@@ -117,7 +119,7 @@ function handleCommand(command) {
                     const redirectTo = `Post/${currentDirectory}/${openFileName}`;
                     
                     if (openFileContent !== undefined) {
-                        writeToTerminal(`Redirecionando para: http://gutierre0x80.github.io/${redirectTo}`);
+                        writeToTerminal(`Redirecionando para: http://localhost/${redirectTo}`);
                         window.location.href = `../${redirectTo}`;
                     } else {
                         writeToTerminal(`Arquivo não encontrado: ${currentDirectory}/${openFileName}`);
@@ -128,11 +130,48 @@ function handleCommand(command) {
                 break;
         }
     }
+    function startsWithIgnoreCase(str, prefix) {
+        return str.toLowerCase().startsWith(prefix.toLowerCase());
+    }
     
     inputElement.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
+            event.preventDefault();
             const command = inputElement.value.trim();
             inputElement.value = '';
             handleCommand(command);
+        } else if (event.key === 'Tab') {
+            event.preventDefault();
+            const currentInput = inputElement.value.trim();
+            const commandParts = currentInput.split(' ');
+            const baseCommand = commandParts[0].toLowerCase();
+    
+            if (baseCommand === 'cd') {
+                const matchingDirectories = Object.keys(directoryContents).filter(directory => startsWithIgnoreCase(directory, commandParts[1]));
+                if (matchingDirectories.length === 1) {
+                    inputElement.value = `cd ${matchingDirectories[0]}`;
+                } else if (matchingDirectories.length > 1) {
+                    writeToTerminal('<br>' + matchingDirectories.join(', '));
+                }
+            } else if (baseCommand === 'cat' || baseCommand === 'open') {
+                const currentDirectoryContents = directoryContents[currentDirectory];
+                if (currentDirectoryContents) {
+                    const matchingFiles = currentDirectoryContents.filter(file => startsWithIgnoreCase(file, commandParts[1]));
+                    if (matchingFiles.length === 1) {
+                        inputElement.value = `${baseCommand} ${matchingFiles[0]}`;
+                    } else if (matchingFiles.length > 1) {
+                        writeToTerminal('<br>' + matchingFiles.join(', '));
+                    }
+                }
+            } else {
+                const matchingCommands = comandosDisponiveis.filter(cmd => startsWithIgnoreCase(cmd, currentInput));
+                if (matchingCommands.length === 1) {
+                    inputElement.value = matchingCommands[0];
+                } else if (matchingCommands.length > 1) {
+                    writeToTerminal('<br>' + matchingCommands.join(', '));
+                }
+            }
         }
     });
+    
+    
