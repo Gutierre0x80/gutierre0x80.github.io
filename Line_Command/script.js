@@ -91,11 +91,9 @@ function handleCommand(command) {
             const targetDirectory = options[0];
 
             if (targetDirectory === '..' || targetDirectory === '../' || targetDirectory === '/') {
-                // Lidar com voltar para o diretório pai ou ir para o diretório raiz
                 currentDirectory = '/';
                 writeToTerminal(`(gutierre0x80@OldSystem)-[${currentDirectory}]`);
             } else if (directoryContents[targetDirectory]) {
-                // Verificar se o diretório alvo existe nos diretórios disponíveis
                 currentDirectory = targetDirectory;
                 writeToTerminal(`(gutierre0x80@OldSystem)-[${currentDirectory}]`);
             } else {
@@ -116,7 +114,7 @@ function handleCommand(command) {
                     const openFileName = options[0];
                     const openFilePath = currentDirectory + '/' + openFileName;
                     const openFileContent = fileContents[openFilePath];
-                    const redirectTo = `Post/${currentDirectory}/${openFileName}`;
+                    const redirectTo = `Post/${currentDirectory.charAt(0).toUpperCase() + currentDirectory.slice(1)}/${openFileName}`;
                     
                     if (openFileContent !== undefined) {
                         writeToTerminal(`Redirecionando para: http://localhost/${redirectTo}`);
